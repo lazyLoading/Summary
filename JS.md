@@ -1,3 +1,178 @@
+# 数据算法
+
+- 数据驱动思想
+- 递归
+- 数组扁平化
+- 排序算法
+- 去重
+- 迭代原理
+
+## 递归
+
+*实现数据扁平化*
+
+- 遍历
+
+```javascript
+//直接产生一个数组，不需要第三方声明及拼接
+$ul.innerHTML=datas.map(res=>{
+	return`<li>${res.name}</li>`
+}).join('')
+```
+
+- 递归
+  - 函数自已调用自已
+  - 注意循环条件的处理，避免出现无限循环
+
+```javascript
+$ul.innerHTML=createHTML(datas);
+
+function createHTML(items,level=0){
+  return items.map(item=>{
+    let str=`<li style="pading-left:${level}*30">
+							${item.name}
+						 </li>`;
+    if(Array.isArray(item.children)){
+      str+=createHTML(item.children);
+    } 
+  })
+  return str
+}.join('');
+```
+
+- 数据扁平化
+  - flat(  )
+
+```javascript
+//二维数组
+let arr=[1,2,['a','b','c'],3];
+console.log(arr.flat());//[1,2,'a','b','c',3]
+//三维数组
+let arr=[1,2,['a','b','c',['中','文'],3];
+console.log(arr.flat(2));//[1,2,'a','b','c','中','文',3]
+//多维数组，Infinity-无穷
+let arr=[1,2,['a','b','c',['中','文'],3];
+console.log(arr.flat(Infinity));
+```
+
+- 多维数组查找
+  - 运用递归方法使数据转一维数组（扁平化）
+
+```javascript
+console.log(flat(datas))
+//递归数据扁平化
+function flat(d){
+  let newArr=[];
+  d.forEach(item=>{
+    newArr.push(item);
+    
+    if(Arry.isArray(item.children)){
+      newArr=newArr.concat(flat(item.children))
+    }
+  })
+  return newArr;
+}
+
+//reduce数据扁平化
+function flat(items){
+  return items.reduce((prev,current)=>{
+    return prev.concat(
+      current,
+      Array.isArray(current.children)?flat(current.children):[]
+    )
+  },[])
+}
+
+```
+
+## 排序
+
+- sort(  )
+
+```javascript
+//sort方法
+datas.sort((a,b)=> a.chapter-b.chapter);
+
+//冒泡实现
+let arr=[6,7,8,3,4,1,10,9];
+for(let j=0;j<arr.lenght-1;j++){
+  //设定开关，避免多余的循环
+  let isOff=true;
+  //arr.length-1-j每循环一次减少一层范围
+  for(let i=0;i<arr.length-1-j;i++){
+    let a=arr[i];//取出当前值
+    let b=arr[i+1];//取出一下位值
+    //当前值a大于下一位值b时, 交换位置
+    if(a > b){
+     arr[i]=b;
+     arr[i+1]=a;
+     isOff=false;
+    } 
+  }
+  if (isOff) break;//跳出外层  循环
+}
+console.log(arr);//[1,3,4,6,7,8,9,10]
+```
+
+## 去重
+
+- new Set(  )
+- 对象去重（利用key不能重）
+
+```javascript
+1.
+//new Set()方法,值不能重
+let arr=[1,1,2,3,3,2,7];
+let s=new Set(arr);//{2,3,7}
+let arr1=[...s1]//转回数组
+console.log(arr1);//[2,3,7]
+//简写：
+console.log(...new Set(arr));//[2,3,7]
+
+2.
+//利用对象key不能重
+let obj={};
+arr1.forEach(item=>{
+  obj[item]=1;
+})
+console.log(obj);//{1:1,2:1,3:1,7:1}//生成对象
+console.log(Object.keys(obj));//["2","3","7"]//取键值
+console.log(Object.keys(obj).map(o=>Number(o)));//[2,3,7]//转数组及转数字
+```
+
+##  对象遍历
+
+- for...in
+- defineProperty（vue 数据监听截持实现方法）
+
+```javascript
+//for in会遍历到原型链上的定义
+Object.prototype.z=100;//原型定义
+//自变量定义默认为true,可改|可输出
+let obj={x:1,y:2};
+for (let k in obj){
+  conosle.log(obj);//x,y,z
+} 
+
+//defineProperty定义默认为false,不可改|不输出
+Object.defineProperty(obj,'y',{
+  value:100,//值
+  writable:false,//可写默认false,改定值无效
+  enumerable:false,//可枚举默认false，不会输出值
+})
+
+obj.y=1000;//改定值无效
+conosle.log(obj.y);//不会输出值
+```
+
+## ？迭代器
+
+- for...of
+
+```javascript
+……
+```
+
 # 面向对象
 
 ## 什么是面向对象
@@ -116,11 +291,10 @@ console.log(p1.showName==p2.showName);//true
 
 ### 基本类型
 
-String|Number|Boolean|Null|Undefind
-
-特点：赋值时，只是值的复制
-
-比较：值相同，返回true
+- String|Number|Boolean|Null|Undefind
+  - 特点：赋值时，只是值的复制
+  - 比较：值相同，返回true
+  - typeof可以识别出基本类型，但不能识别null、对象类型，会统一归为object类型
 
 ```javascript
 //a赋给b,然后修改b不会影响a,a只字复制给b而已
@@ -137,11 +311,10 @@ console.log(a==b);//true
 
 ### 对象类型
 
-Array|Objcet
-
-特点：赋值时，不仅是值的**复制**，而且也是**引用**(指变量名)的传递
-
-比较：值与引用名都相同，返回ture 
+- Array|Objcet
+  - 特点：赋值时，不仅是值的**复制**，而且也是**引用**(指变量名)的传递
+  - 比较：值与引用名都相同，返回ture 
+  - instanceof可以识出对象类型，如array、object、function，同时对于使用new声明类型，它还可以检测出多层继承关系，但是不能识别出基本类型
 
 ```javascript
 var a=[1,2,3];
@@ -172,13 +345,19 @@ console.log(a==b);//false
 普通，css中的style
 
 ```javascript
+//原型与原型链?
+_proto_对象的原型链
+prototype构造函数的原型
+实例化对象的_proto_指向构造函数的prototype
+```
+
+```javascript
 /注：普通方法优先于原型方法
 var arr=[];
 //普通
 arr.number=10;
 //原型
 Array.prototype.number=20;
-
 console.log(arr.number);//10
 ```
 
@@ -218,6 +397,96 @@ function 构造函数(){
 var 对象1=new 构造函数();
 对象1.方法();
 ```
+
+## 继承
+
+- 构造函数的继承
+
+  ```javascript
+  //构造函数
+  function Person(name,age){
+    this.name=name;
+    this.age=age;
+  }
+  Person.prototype.sayName=function(){
+    conosle.log(this.name);
+  }
+  Person.prototype.sayAge=function(){
+    conosle.log(this.age);
+  }
+  //实例化
+  let leo=new Preson2('leo',43);
+  leo.sayName();
+  leo.sayAge();
+  
+  //继承
+  function Person1(name,age,skill){
+    //修改this指向当前并继承父级
+    Person.call(this,name,age);
+    this.skill=skill; 
+  }
+  //继承实例化
+  let lily=new Preson1('lily',33,'花式写代码');
+  console.log(lily)
+  ```
+
+- 原型继承
+
+  - 深拷贝
+
+    ```javascript
+    let obj={
+      name:"lily",
+      age:18,
+      skill:{
+        eat:"满汉全席",
+        music:"爱",
+        list:['古筝','吉他','钢琴']
+      }
+    };
+    //复制每一层  
+    function extend(data){
+      if(typeof data=="object"&&data){
+        var val=typeof data.lenght=='number'?[]|{};
+        for(var s in data){
+          val[s]=extend(data[s]);//递归
+        }
+        return val;
+      }else{
+        return data;
+      }
+    }
+    
+    let newObj=extend(obj)
+    ```
+
+  - 浅拷贝
+
+    ```javascript
+    //子级会改变父级值，不建议使用
+    //只复制第一层值，多层次无法复制
+    for（let s in Person.prototype）{
+    	Person1.prototype[s]=Person.prototype[s];
+    }
+    ```
+
+    
+
+  - 原型链继承
+
+    ```javascript
+    //原型链继承
+    Person1.prototype=extend(Person);
+    Person1.prototype.constructor=Person1;
+    //封装空函数
+    function extend(c){
+      funcion P(){}
+      P.prototype=c.prototype;
+      return new P;
+    }
+    
+    
+    ```
 
 # ES6
 
