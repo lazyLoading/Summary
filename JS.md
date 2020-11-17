@@ -400,93 +400,91 @@ var 对象1=new 构造函数();
 
 ## 继承
 
-- 构造函数的继承
+### 构造函数继承
 
-  ```javascript
-  //构造函数
-  function Person(name,age){
-    this.name=name;
-    this.age=age;
-  }
-  Person.prototype.sayName=function(){
-    conosle.log(this.name);
-  }
-  Person.prototype.sayAge=function(){
-    conosle.log(this.age);
-  }
-  //实例化
-  let leo=new Preson2('leo',43);
-  leo.sayName();
-  leo.sayAge();
-  
-  //继承
-  function Person1(name,age,skill){
-    //修改this指向当前并继承父级
-    Person.call(this,name,age);
-    this.skill=skill; 
-  }
-  //继承实例化
-  let lily=new Preson1('lily',33,'花式写代码');
-  console.log(lily)
-  ```
+- call(   )，修改this指向当前并继承父级
 
-- 原型继承
+```javascript
+//构造函数
+function Person(name,age){
+  this.name=name;
+  this.age=age;
+}
+Person.prototype.sayName=function(){
+  conosle.log(this.name);
+}
+Person.prototype.sayAge=function(){
+  conosle.log(this.age);
+}
+//实例化
+let leo=new Preson2('leo',43);
+leo.sayName();
+leo.sayAge();
 
-  - 深拷贝
+//继承
+function Person1(name,age,skill){
+  //修改this指向当前并继承父级
+  Person.call(this,name,age);
+  this.skill=skill; 
+}
+//继承实例化
+let lily=new Preson1('lily',33,'花式写代码');
+console.log(lily)
+```
 
-    ```javascript
-    let obj={
-      name:"lily",
-      age:18,
-      skill:{
-        eat:"满汉全席",
-        music:"爱",
-        list:['古筝','吉他','钢琴']
-      }
-    };
-    //复制每一层  
-    function extend(data){
-      if(typeof data=="object"&&data){
-        var val=typeof data.lenght=='number'?[]|{};
-        for(var s in data){
-          val[s]=extend(data[s]);//递归
-        }
-        return val;
-      }else{
-        return data;
-      }
+### 原型链继承
+
+```javascript
+//原型链继承
+Person1.prototype=extend(Person);
+Person1.prototype.constructor=Person1;
+//封装空函数
+function extend(c){
+  funcion P(){}
+  P.prototype=c.prototype;
+  return new P;
+}
+```
+
+### 拷贝继承
+
+- 深拷贝
+
+```javascript
+let obj={
+  name:"lily",
+  age:18,
+  skill:{
+    eat:"满汉全席",
+    music:"爱",
+    list:['古筝','吉他','钢琴']
+  }
+};
+//复制每一层  
+function extend(data){
+  if(typeof data=="object"&&data){
+    var val=typeof data.lenght=='number'?[]|{};
+    for(var s in data){
+      val[s]=extend(data[s]);//递归
     }
-    
-    let newObj=extend(obj)
-    ```
+    return val;
+  }else{
+    return data;
+  }
+}
 
-  - 浅拷贝
+let newObj=extend(obj)
+```
 
-    ```javascript
-    //子级会改变父级值，不建议使用
-    //只复制第一层值，多层次无法复制
-    for（let s in Person.prototype）{
-    	Person1.prototype[s]=Person.prototype[s];
-    }
-    ```
+- 浅拷贝
 
-    
-
-  - 原型链继承
-
-    ```javascript
-    //原型链继承
-    Person1.prototype=extend(Person);
-    Person1.prototype.constructor=Person1;
-    //封装空函数
-    function extend(c){
-      funcion P(){}
-      P.prototype=c.prototype;
-      return new P;
-    }
-    
-    
-    ```
+```javascript
+//子级会改变父级值，不建议使用
+//只复制第一层值，多层次无法复制
+for（let s in Person.prototype）{
+	Person1.prototype[s]=Person.prototype[s];
+}
+```
 
 # ES6
 
