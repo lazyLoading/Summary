@@ -1,3 +1,83 @@
+# 什么是JS
+
+- 一门动态编程语言
+- 实现了大量实用工具
+  - 浏览器内置API
+  - 第三方框架和库
+  - 第三方API(Twitter、Facebook等)
+
+# JS对象
+
+- 浏览器对象
+  - window|screen|event|form|location|link|button|submit|history|area|radio|reset...
+- 内置对象 
+  - Array|Boolean|Data|Math|Number|Object|String|Global|Function|RegExp
+- 自定义对象（面向对象）
+- 对象包含两个要素
+  - 属性，描述对象特性
+  - 方法，若干函数
+
+# 数据
+
+### 数据类型
+
+- String|Number|Object|Symbol|Boolean|Null|Undefined|bigInt
+
+### 数据结构
+
+- Array|散列表|队列|树|栈|堆|链表|图
+
+## 操作方法
+
+### 类型转换
+
+- parseInt()|parseFloat()字符数字转数字
+  - 加法运算符(+"1.1") + (+"1.1")=2.2
+- String()|toString()数字转字符串
+- Nnmber()对象转数字
+- JSON.stringify() 对象转字符串
+- JSON.parse()字符串转JSON
+
+### 对象方法
+
+- for..in 遍历
+
+- freeze()冻结
+- assign()合并|浅拷贝
+- keys()返回键名数组
+- create()创建
+- is()比较值
+- fromEntries()
+  - [["a",1],["b",2]]转{a:1,b:2}
+
+##  字符串方法
+
+- substring()|substr()|slice()截取
+- split()分割成数组
+- indexOf()查找索引值
+- includes()查找字符
+- stratsWith()以什么开头
+- endswith()以什么结尾
+- chaAt()查找值
+
+### 数组方法
+
+- join()数组元素组成字符串
+- sort()排序
+- find()遍历数组
+- Array.isArray()判断是否为数组
+- Array.from()转数组
+- Array.of()新数组
+- splice()增删替
+- push()|unshift()添加
+- pop()|shift()删除
+
+- concat()合并
+
+- toString()数组转字符串
+
+  
+
 # 数据算法
 
 - 数据驱动思想
@@ -486,6 +566,8 @@ for（let s in Person.prototype）{
 }
 ```
 
+
+
 # ES6
 
 ## 模块化
@@ -619,7 +701,7 @@ export {name,add};
 
 ## 新增
 
-### 函数
+### 箭头函数
 
 - 传参
 
@@ -700,11 +782,52 @@ var fn=(...r)=>{
 fn(1,2,3,4,5)
 ```
 
-### 数组 
+- getter|setter方法
+  - get是返回对象属性值的方法
+  - set是设置对象属性值的方法
 
+```javascript
+var p={
+	_age:18,
+  get age(){
+    return this._age;
+  },
+  set age(val){
+    this,_age=val;
+  }
+}
+//初始值
+p.age;//18
+//重新定义值
+p.age=20;
+p.age;//20
+```
 
+### ?数组
 
-### 对象
+```javascript
+//---
+```
+
+### ?对象
+
+```javascript
+//---
+```
+
+### 剩余参数
+
+- 将一个不定数量的参数表示为一个数组
+
+```javascript
+function sum(...data){
+  return data.reduce((pre,cur)=>{
+    return pre+cur;
+  })
+}
+sum(1,2,3);//6
+sun(1,2,3,4,5);//15
+```
 
 ## 解构赋值
 
@@ -1004,6 +1127,7 @@ Promise.resolve(
 ## 异步函数
 
 - async/await
+  - 解决promise执行中，中途无法取消、内部监测难、错识无法在外部捕捉，只能内部预判
 
 ````javascript
  async function fn(){
@@ -1080,6 +1204,8 @@ p1.say();//lily,28
 
 #### 静态方法
 
+- 静态方法调用同一个类中的其他静态方法，可使用 `this `关键字。
+
 ```javascript
 var str="妙";
 //实例方法
@@ -1135,6 +1261,233 @@ c1.say();
 - 原型上的方法是不可枚举的Object.keys(Person.prototype)
 - 子类可改写父类的方法，并不会影响父类方法
 - 子类可继承父类的静态方法
+
+# TypeScript
+
+- Javascript的超集，可以编译成纯javascript
+
+- 可以在任何浏览器、计算机、操作系统上运行，并且是开源的
+- 不能直接运行，属于间接运行
+
+- 它属于强类型语言。
+
+## 类型系统
+
+https://www.tslang.cn/index.html#download-links   
+
+
+```
+安装：npm install -g typescript
+```
+
+```
+编译：tsc ./src/helloworld.ts		(会生成并级helloworld.js)
+保存编译文件：tsc ./src/helloworld.ts --outfile ./dist/helloworld.ts
+tsconfig.json：配置进行统一编译文件
+```
+
+### 声明类型
+
+```javascript
+var str:string;
+str='必需为字符串类型（类型约束）';
+
+//首字大写声明的是字符串对象
+var str1:String=new String('lili');
+```
+
+### 类型
+
+基本类型：Boolean|Number|String|Null|Undefined
+
+特殊类型：Array|Tuple|Enum|Any|Void|Never
+
+```javascript
+//数组，一组具有相同类型特征的数据有序集合
+let arr:number[]=[1,2,3];
+let arr1:Array<number>=[1,2,3];
+```
+
+```javascript
+//枚举
+enum Obj{no=0,yes=1}
+enum Obj1{a=1,b,c};//后面值根据第一个已有值累计1,2,3
+
+enum Colors{red,pink,black}
+let r:Colors=Color.red
+```
+
+```javascript
+//任意类型
+let notSure:any=5;
+let list:any[]=[1,'a',5];
+```
+
+### 高级类型
+
+```javascript
+//联合类型
+function getData():string|string[]{
+  if(// ...条件){ 
+     return 'a';
+     }else{
+    return ['a','b','c'];
+  } 
+}
+var result:string|string[]=getData();
+
+//类型断言
+(<string>result).substring(0);
+(<string[]>result).push();
+
+```
+
+## 函数与类
+
+### 函数
+
+```javascript
+//函数声明式为数字类型
+function fn1(x:number,y:number){
+	return x+y;
+} 
+fn1(1,2);
+
+//函数表达式传参类型
+var fn2:(x:number,y:numbe)=>number=function(x,y){
+  return x+y;
+}
+
+//定义可传，可不传参数类型值
+function fn3(x:number,y?:number):number{
+  return x+y;
+}
+fn3(3)
+
+//函数重载
+function fn4(x:number,y:number):number;
+function fn4(x:string,y:string):string;
+function fn4(x:any,y:any):any{
+  if(typeof x=='number'){
+    return x*y;
+  }else{
+    return x+y;
+  }
+}
+fn4('a','b');
+fun4(1,2);
+```
+
+### 类
+
+```javascript
+class Person{
+  name:string;
+  age:number;
+  say():void{
+		console.log('Hello');
+  }
+}
+
+var p1:Person=new Person();
+p1.say();
+
+/注：安装ts-node 直接运行结果
+
+//构造函数
+class Person{
+  name:string;
+  age:number;
+  constructor( name:string,age:number;){
+		this.name=name;
+    this.age=age;
+  }
+  say():void{
+		console.log('Hello'+this.name);
+  }
+}
+
+var p1:Person=new Person('Lili',33);
+p1.say();
+```
+
+### 类的深入
+
+####  修饰符
+
+公共：public （默认）
+受保护：protected （子类可用）
+私有：private （子类不可用）
+只读：readonly （可访问，不可修改）
+
+ #### 继承
+
+```javascript
+class Student extends Person{
+  constructor(name:string,age:number){
+    super(name,age)
+  }
+  getAge():number{
+    return this.age;
+  }
+}
+
+let s1:Student=new Student('leo',40);
+console.log(s1.age);
+```
+
+#### 存取器
+
+```javascript
+//get|set 控制当前属性值
+class Man{
+  private _age:number;
+  constructor(age:number){
+    this._age=age;
+  }
+  get age():number{
+		return this._age;
+  }
+  set age(newAge:number){
+		if(newAge < 200) this._age=newAge;
+  }
+}
+let m1:Man=new Man(10);
+m1.age=100;
+console.log(m1.age);
+```
+
+#### 静态方法
+
+```javascript
+class Teacher{
+	age:number;
+	static flag:string='静态属性';
+	
+  constructor(age:number){
+		this.age=age;
+  }
+	
+	static fn():void{//静态方法
+    
+  }
+}
+//访问静态属性
+console.log(Teacher.flag)
+//非静态属性访问，需新实例化
+let t1:Teacher=new Teacher(10);
+```
+
+#### 泛型
+
+```javascript
+function fn<T>(x:T,y:T):any{
+  return x;
+}
+
+fn<string>('a','b');
+fn<number>(1,1);
+```
 
 # Axios封装
 
