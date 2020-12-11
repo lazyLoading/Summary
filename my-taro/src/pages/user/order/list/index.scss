@@ -1,0 +1,57 @@
+@import '../../../../common/css/variable.scss';
+.list-box {
+    background-color: $color-black6;
+    .item {
+        box-sizing: border-box;
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: $color-white;
+        .head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+        .product {
+            margin: 15px 0;
+            .swiper-pic {
+                display: inline-block;
+                width: 65%;
+                height: 100px;
+                overflow: hidden;
+            }
+            .single-pic {
+                display: inline-block;
+                width: 65%;
+                .at-avatar {
+                    margin-right: 10px;
+                }
+            }
+            .abstract {
+                display: inline-block;
+                width: 35%;
+                vertical-align: top;
+                text-align: right;
+                .price {
+                    font-size: 28px;
+                }
+                .num {
+                    color: $color-black4;
+                }
+            }
+        }
+        .operation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .time {
+                color: $color-black4;
+            }
+            .bnt {
+                .at-tag {
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
+}

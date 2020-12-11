@@ -1,0 +1,30 @@
+@import '../../../../common/css/variable.scss';
+.page-my-list {
+    .at-list__item {
+        border-bottom: 1px solid $color-black6;
+        .item-extra__info {
+            padding-right: 40px;
+            font-size: 30px;
+        }
+    }
+    .portrait {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 22px;
+        >.hydrated {
+            font-size: 32px;
+        }
+    }
+    .name {
+        .at-input {
+            padding-right: 45px;
+            margin-left: 22px;
+            input {
+                text-align: right;
+                font-size: 30px;
+                color: $color-black4;
+            }
+        }
+    }
+}

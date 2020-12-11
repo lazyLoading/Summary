@@ -1,2 +1,41 @@
 //全局样式
 @import 'taro-ui/dist/style/index.scss';
+body {
+    font-size: 14px;
+    color: #333;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.clearfix {
+    zoom: 1;
+}
+
+.tit {
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.page-order {
+    padding: 15px;
+}
+
+.at-tag--active {
+    &.at-tag--primary {
+        border-color: #6780ea;
+        background-color: #6780ea;
+    }
+}
