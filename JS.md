@@ -41,9 +41,10 @@
 ### 对象方法
 
 - for..in 遍历
-
 - freeze()冻结
 - assign()合并|浅拷贝
+- delete 删除
+  - delete myObj.name
 - keys()返回键名数组
 - create()创建
 - is()比较值
@@ -529,6 +530,7 @@ function extend(c){
 - 深拷贝
 
 ```javascript
+//方法一：递归
 let obj={
   name:"lily",
   age:18,
@@ -538,8 +540,7 @@ let obj={
     list:['古筝','吉他','钢琴']
   }
 };
-//复制每一层  
-function extend(data){
+function extend(data){//复制每一层  
   if(typeof data=="object"&&data){
     var val=typeof data.lenght=='number'?[]|{};
     for(var s in data){
@@ -550,8 +551,18 @@ function extend(data){
     return data;
   }
 }
-
 let newObj=extend(obj)
+
+//方法二：JSON对象的parse和stringify
+function deepClone(obj){
+    let _obj = JSON.stringify(obj),
+        objClone = JSON.parse(_obj);
+    return objClone
+}    
+let a=[0,1,[2,3],4], b=deepClone(a);
+a[0]=1;
+a[2][0]=1;
+console.log(a,b);
 ```
 
 - 浅拷贝
@@ -1265,9 +1276,10 @@ c1.say();
 - Javascript的超集，可以编译成纯javascript
 
 - 可以在任何浏览器、计算机、操作系统上运行，并且是开源的
-- 不能直接运行，属于间接运行
+- 不能直接运行，属于间接运行，它属于强类型语言。
 
-- 它属于强类型语言。
+  
+
 
 ## 类型系统
 

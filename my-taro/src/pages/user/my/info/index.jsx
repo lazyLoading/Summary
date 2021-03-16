@@ -98,18 +98,24 @@ export default class Index extends Component {
               />
             </AtList>
           </Picker>
+          <Picker
+            mode="selector"
+            range={this.state.selector}
+            onChange={this.onChange}
+          >
+            <AtList hasBorder={false}>
+              <AtListItem
+                title="家庭人数"
+                extraText="0"
+                arrow="right"
+                hasBorder={false}
+              />
+            </AtList>
+          </Picker>
           <AtListItem title="我的等级" extraText="普卡"  arrow="right" hasBorder={false} />
         </AtList>
-        <AtList className="name" hasBorder={false}>
-          <AtInput
-            name="value"
-            title="家庭人员"
-            type='number'
-            placeholder="请输入"
-            value={this.state.num}
-            onChange={this.handleChange.bind(this)}
-          />
-        </AtList>
+
+        <AtButton type='primary' size='small'>保存</AtButton>
       </View>
     );
   }

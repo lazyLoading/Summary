@@ -1,9 +1,9 @@
 export default {
     pages: [
+        "pages/user/my/info/index",
         "pages/user/order/list/index",
         "pages/user/order/details/index",
         "pages/user/seller/index",
-        "pages/user/my/info/index",
         "pages/user/my/address/index",
     ],
     window: {
