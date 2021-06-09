@@ -1,5 +1,7 @@
 # 什么是JS
 
+https://developer.mozilla.org/zh-CN/docs/Web/JavaScript
+
 - 一门动态编程语言
 - 实现了大量实用工具
   - 浏览器内置API
@@ -146,7 +148,6 @@ function flat(d){
   let newArr=[];
   d.forEach(item=>{
     newArr.push(item);
-    
     if(Arry.isArray(item.children)){
       newArr=newArr.concat(flat(item.children))
     }
@@ -219,6 +220,14 @@ arr1.forEach(item=>{
 console.log(obj);//{1:1,2:1,3:1,7:1}//生成对象
 console.log(Object.keys(obj));//["2","3","7"]//取键值
 console.log(Object.keys(obj).map(o=>Number(o)));//[2,3,7]//转数组及转数字
+
+3.
+//reduce 数组去重
+var arr = [3,9,4,3,6,0,9];
+var newArr = arr.reduce(function (prev, cur) {
+    prev.indexOf(cur) === -1 && prev.push(cur);
+    return prev;
+},[]);
 ```
 
 ##  对象遍历
@@ -232,7 +241,8 @@ Object.prototype.z=100;//原型定义
 //自变量定义默认为true,可改|可输出
 let obj={x:1,y:2};
 for (let k in obj){
-  conosle.log(obj);//x,y,z
+  conosle.log(k);//x,y,z
+  console.log(obj[k]);//1,2,100
 } 
 
 //defineProperty定义默认为false,不可改|不输出
@@ -246,13 +256,195 @@ obj.y=1000;//改定值无效
 conosle.log(obj.y);//不会输出值
 ```
 
-## ？迭代器
+## 迭代器
 
-- for...of
+- for...of 与for...in区别
+  - for...in迭代键名
+  - for...of迭代键值
 
 ```javascript
-……
+let list=[4,6,8]
+for(let i in list){
+  console.log(i)//'0','1','2'
+}
+
+for(let i of list){
+    console.log(i)//'4','6','8'
+}
 ```
+
+## reduce
+
+- 语法：arr.reduce(function(prev,cur,index,arr){...}, init)
+  - **arr** 表示原数组
+  - **prev** 表示上一次调用回调时的返回值，或者初始值 init
+  - **cur** 表示当前正在处理的数组元素
+  - **index** 表示当前正在处理的数组元素的索引，若提供 init 值，则索引为0，否则索引为1
+  - **init** 表示初始值
+
+### 去重
+
+```javascript
+//reduce 数组去重
+var arr = [3,9,4,3,6,0,9];
+var newArr = arr.reduce(function (prev, cur) {
+    prev.indexOf(cur) === -1 && prev.push(cur);
+    return prev;
+},[]);
+//基本原理如下：
+① 初始化一个空数组
+② 将需要去重处理的数组中的第1项在初始化数组中查找，如果找不到（空数组中肯定找不到），就将该项添加到初始化数组中
+③ 将需要去重处理的数组中的第2项在初始化数组中查找，如果找不到，就将该项继续添加到初始化数组中
+④ ……
+⑤ 将需要去重处理的数组中的第n项在初始化数组中查找，如果找不到，就将该项继续添加到初始化数组中
+⑥ 将这个初始化数组返回
+```
+
+### 最大值
+
+```javascript
+//求数组项最大值
+var arr = [3,9,4,3,6,0,9];
+var max = arr.reduce(function (prev, cur) {
+    return Math.max(prev,cur);
+});
+//原理：
+由于未传入初始值，所以开始时prev的值为数组第一项3，cur的值为数组第二项9，取两值最大值后继续进入下一轮回调
+```
+
+### 求和
+
+```javascript
+//求数组项最大值
+var arr = [3,9,4,3,6,0,9];
+var sum = arr.reduce(function (prev, cur) {
+    return prev + cur;
+},0);
+//原理：
+由于传入了初始值0，所以开始时prev的值为0，cur的值为数组第一项3，相加之后返回值为3作为下一轮回调的prev值，然后再继续与下一个数组项相加，以此类推，直至完成所有数组项的和并返回
+```
+
+## 操作数组
+
+- .filter()、.map()、.forEach()、.find()、.findIndex()、.some()、.every()
+
+```javascript
+//.filter()
+filter() 方法创建一个新的数组，新数组中的元素是通过检查指定数组中符合条件的所有元素。
+是否改变原数组：否
+是否对空数组进行检测：否
+语法：
+const arr= [32, 33, 16, 40];
+const arr1 = arr.filter(item => item >= 18)
+console.log(arr)  // [32, 33, 16, 40]
+console.log(arr1)  // [32, 33, 40]
+
+//.map()
+map() 方法返回一个新数组，数组中的元素为原始数组元素调用函数处理后的值。
+map() 方法按照原始数组元素顺序依次处理元素。
+是否改变原数组：否
+是否对空数组进行检测：否
+语法：
+const arr= [4, 9, 16, 25];
+const arr1 = arr.map(item => item+2)
+console.log(arr)  // [4, 9, 16, 25]
+console.log(arr1)  // [6, 11, 18, 27]
+
+//.forEach()
+forEach() 方法用于调用数组的每个元素，并将元素传递给回调函数。
+注意: forEach() 对于空数组是不会执行回调函数的。
+tips: forEach()中不支持使用break(报错)和return(不能结束循环)，有需要时可使用常规的for循环。
+语法：
+const arr= [4, 9, 16, 25];
+const arr1 = [];
+arr.forEach(item => arr1.push(item))
+console.log(arr)  // [4, 9, 16, 25]
+console.log(arr1)  // [4, 9, 16, 25]
+
+//.find()
+find() 方法返回通过测试（函数内判断）的数组的第一个元素的值。
+find() 方法为数组中的每个元素都调用一次函数执行：
+当数组中的元素在测试条件时返回 true 时, find() 返回符合条件的元素，之后的值不会再调用执行函数。
+如果没有符合条件的元素返回 undefined
+注意: find() 对于空数组，函数是不会执行的。
+注意: find() 并没有改变数组的原始值。
+语法：
+const arr= [4, 9, 16, 25];
+const b = arr.find(item => item>10)
+const c = arr.find(item => item<1)
+console.log(arr)  // [4, 9, 16, 25]
+console.log(b)  // 16
+console.log(c)  // undefined
+
+//.findIndex()
+findIndex() 方法返回传入一个测试条件（函数）符合条件的数组第一个元素位置。
+findIndex() 方法为数组中的每个元素都调用一次函数执行：
+当数组中的元素在测试条件时返回 true 时, findIndex() 返回符合条件的元素的索引位置，之后的值不会再调用执行函数。
+如果没有符合条件的元素返回 -1
+注意: findIndex() 对于空数组，函数是不会执行的。
+注意: findIndex() 并没有改变数组的原始值。
+语法：
+const arr= [4, 9, 16, 25];
+const b = arr.findIndex(item => item>10)
+const c = arr.findIndex(item => item<1)
+console.log(arr)  // [4, 9, 16, 25]
+console.log(b)  // 2
+console.log(c)  // -1
+
+//.some()
+some() 方法用于检测数组中的元素是否满足指定条件（函数提供）。
+some() 方法会依次执行数组的每个元素：
+如果有一个元素满足条件，则表达式返回true , 剩余的元素不会再执行检测。
+如果没有满足条件的元素，则返回false。
+注意： some() 不会对空数组进行检测。
+注意： some() 不会改变原始数组。
+语法：
+const arr= [4, 9, 16, 25];
+const b = arr.some(item => item>10)
+const c = arr.some(item => item<1)
+console.log(arr)  // [4, 9, 16, 25]
+console.log(b)  // true
+console.log(c)  // false
+
+//.every()
+every() 方法用于检测数组所有元素是否都符合指定条件（通过函数提供）。
+every() 方法使用指定函数检测数组中的所有元素：
+如果数组中检测到有一个元素不满足，则整个表达式返回 false ，且剩余的元素不会再进行检测。
+如果所有元素都满足条件，则返回 true。
+注意： every() 不会对空数组进行检测。
+注意： every() 不会改变原始数组。
+语法：
+const arr= [4, 9, 16, 25];
+const b = arr.every(item => item>10)
+const c = arr.every(item => item>1)
+console.log(arr)  // [4, 9, 16, 25]
+console.log(b)  // false
+console.log(c)  // true
+```
+
+
+
+# 命名空间
+
+**特殊函数**
+
+- 首字母大写
+- 内部声明和方法挂载在this下面
+- 通过new关键字，执行方法
+
+```javascript
+function User(n){
+	this.name=n;
+  this.getUser=function(){
+    return data.username
+  }
+}
+
+var $user=new User();
+$user.getUser('小米')
+```
+
+
 
 # 面向对象
 
@@ -1165,13 +1357,9 @@ function getValue(val){
            }else{
              reject('值太大啦')
            }
-        
-      
-       
       },2000)
     });
 }
-
 
 ````
 
@@ -1271,15 +1459,16 @@ c1.say();
 - 子类可改写父类的方法，并不会影响父类方法
 - 子类可继承父类的静态方法
 
+
+
 # TypeScript
 
 - Javascript的超集，可以编译成纯javascript
 
 - 可以在任何浏览器、计算机、操作系统上运行，并且是开源的
-- 不能直接运行，属于间接运行，它属于强类型语言。
+- 不能直接运行，属于间接运行
 
-  
-
+- 它属于强类型语言。
 
 ## 类型系统
 
@@ -1316,6 +1505,10 @@ var str1:String=new String('lili');
 //数组，一组具有相同类型特征的数据有序集合
 let arr:number[]=[1,2,3];
 let arr1:Array<number>=[1,2,3];
+
+//布尔
+let arr:boolean=false;
+
 ```
 
 ```javascript
@@ -1498,6 +1691,104 @@ function fn<T>(x:T,y:T):any{
 fn<string>('a','b');
 fn<number>(1,1);
 ```
+
+
+
+## 模块
+
+### 通配符
+
+- TS声明第三方库的类型
+- 声明文件以 **.d.ts** 为后缀
+  - shims-vue.d.ts
+
+```typescript
+//shims-vue.d.ts
+declare module 'vue-introjs'{
+  const vueIntro:any
+  export default vueIntro
+}
+```
+
+### 导出
+
+```typescript
+// assets/types/order/index.d.ts 定义声明参数类型
+interface IFormsPar{
+  name:string,
+  list:arry[],
+  iphone:number
+}
+ interface IOrderPar{
+  id:number,
+  user:string,
+  options:IFormsPar,
+  initView():void,
+  initApp():Promise<>
+}
+export{IOrderPar}
+
+//页面引用
+import * as I from'@/assets/types/order'
+//export default class: ES6中导出创建类
+//extends:继承某个类，继承后可使用、重写父类方法
+//implements:可以实现多个接口，用逗号分开
+export default class Order extends Vue implements I.IOrderPar{
+  //....
+}
+```
+
+## 装饰器
+
+- 装饰器是一种特殊类型的声明，它能被附加到类声明、方法、访问符、属性或参数上。
+
+- 主要的装饰器依赖：
+
+  - vue-property-decorator
+    - 社区出品
+    - 基于vue-class-component，拓展出了更多操作符：@Prop、@Emit、@Inject、@Model、@Provide、@Watch
+  - vue-class-component
+    - 官方出品
+
+  - vuex-class
+  - core-decorators
+
+https://www.jianshu.com/p/dadc9420afad
+
+```typescript
+@Prop	@PropSync	@Model	@ModelSync	@Watch	@Provide	@Inject	@ProvideReactive	@InjectReactive	@Emit	@Ref	s@VModel
+
+import { Vue,Component, Ref } from 'vue-property-decorator'
+
+@Component({
+  components: {
+    XXXX
+  },
+  props: {
+    mapFlag: Number
+  }
+})
+
+export default class App extends Vue {
+  name:string = 'Simon Zhang'
+
+  // computed
+  get MyName():string {
+    return `My name is ${this.name}`
+  }
+
+  // methods
+  sayHello():void {
+    alert(`Hello ${this.name}`)
+  }
+
+  mounted() {
+    this.sayHello();
+  }
+}
+```
+
+
 
 # Axios封装
 
