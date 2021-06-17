@@ -1,0 +1,88 @@
+.manage{
+  height: 90%;
+  padding-bottom: 20px;
+  overflow: hidden;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+}
+.el-input-number.is-controls-right {
+  .el-input-number__decrease {
+  display: none;
+  }
+  .el-input-number__increase {
+  display: none;
+  top: 2px; // fix style bug
+  }
+  &:hover {
+  .el-input-number__decrease {
+   display: inline-block;
+  }
+  .el-input-number__increase {
+   display: inline-block;
+  }
+  }
+  .el-input__inner {
+  text-align: left;
+  padding-left: 5px;
+  padding-right: 40px;
+  }
+ }
+
+ // el-date-picker datetimerange
+ .el-date-editor.el-date-editor--datetimerange {
+  .el-range-separator {
+  width: 24px;
+  color: #999;
+  padding: 0;
+  }
+  .el-range__icon {
+  margin-left: 0;
+  }
+  &.el-input__inner {
+  vertical-align: middle;
+  padding: 3px 5px;
+  }
+  &.el-range-editor--medium {
+  width: 380px;
+
+  .el-range-separator {
+   line-height: 30px;
+  }
+  }
+  &.el-range-editor--mini {
+  width: 330px;
+
+  .el-range-separator {
+   line-height: 22px;
+  }
+  }
+ }
+
+ // el-date-picker not datetimerange
+ .el-date-editor {
+  .el-input__prefix {
+  left: 0;
+  top: 1px;
+  }
+  .el-input__suffix {
+  right: 0;
+  top: 1px;
+  }
+  .el-input__inner {
+  padding: 0 25px;
+  }
+  &.el-input--mini {
+  width: 175px;
+  }
+  &.el-input--medium {
+  width: 195px;
+  }
+ }
+
+ // input padding
+ .el-input__inner {
+  padding: 0 5px;
+ }

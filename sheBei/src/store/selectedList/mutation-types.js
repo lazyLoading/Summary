@@ -1,0 +1,4 @@
+export const UPDATE_PLIST = 'UPDATE_PLIST';
+export const UPDATE_ALIST = 'UPDATE_ALIST';
+export const UPDATE_HANDLETYPR = 'UPDATE_HANDLETYPR';
+export const EDIT_LIST = 'EDIT_LIST';

@@ -1,0 +1,41 @@
+@import '~./_variable.less';
+.home {
+
+  border: 1px solid @border-color;
+  .user {
+    display: flex;
+    align-items: center;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid @border-color;
+    img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin-right: 40px;
+    }
+    .info {
+      .name {
+        font-size: 32px;
+        margin-bottom: 10px;
+      }
+      .access {
+        color: #999999;
+      }
+    }
+  }
+
+  .common-menu {
+    padding: @num-20;
+    background: @white-bg;
+  }
+}
+.titles {
+  background: @white-bg;
+  height: 50px;
+  line-height: 50px;
+  border-bottom: 1px solid #e9e9e9;
+  font-family: "微软雅黑 Bold", "微软雅黑";
+  font-size: 14px;
+  padding-left: @num-20;
+}
